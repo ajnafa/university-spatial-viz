@@ -96,14 +96,14 @@ ggsave(
   
 # Plot of the spatial proximity of universities to costco locations
 proximity_by_hbcu_plot <- base_plot +   
-  # Add the university locations for four year instutions
+  # Add the university locations for four year institutions
   geom_sf(
     data = df %>% 
       filter(prog_level == "University"), 
     aes(geometry = university_geometry, fill = distance_km),
     alpha = 0.75, shape = 21
   ) +
-  # Facet wrap by institution type
+  # Facet wrap by hbcu status
   facet_wrap(~ hbcu_status, ncol = 2) +
   # Set the fill color
   viridis::scale_fill_viridis(option = "H") +
