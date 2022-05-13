@@ -94,11 +94,88 @@ ggsave(
   limitsize = F
 )
   
+# Plot of the spatial proximity of universities to costco locations
+proximity_by_hbcu_plot <- base_plot +   
+  # Add the university locations for four year instutions
+  geom_sf(
+    data = df %>% 
+      filter(prog_level == "University"), 
+    aes(geometry = university_geometry, fill = distance_km),
+    alpha = 0.75, shape = 21
+  ) +
+  # Facet wrap by institution type
+  facet_wrap(~ hbcu_status, ncol = 2) +
+  # Set the fill color
+  viridis::scale_fill_viridis(option = "H") +
+  # Setting the parameters for the plot legend
+  guides(
+    fill = guide_colorbar(
+      title = "Distance (Km) to Nearest Costco",
+      nbin = 1000,
+      barheight = 2,
+      barwidth = 30
+    )) +
+  # Place the legend at the bottom of the plot
+  theme(
+    legend.position = "bottom",
+    plot.title = element_text(vjust = 2)
+  ) +
+  # Add plot labels
+  labs(title = "Spatial Proximity to Costco Locations Among Four-Year Universities in the Continental U.S. by HBCU Status")
   
+# Save the generated plot object as a .jpeg file
+ggsave(
+  filename = "Costco_Proximity_by_HBCU_Status.jpeg",
+  plot = proximity_by_hbcu_plot,
+  path = "figs/",
+  device = "jpeg",
+  width = 25,
+  height = 8,
+  units = "in",
+  dpi = "retina",
+  limitsize = F
+)
   
-  
-  
+# Plot of the spatial proximity of universities to costco locations
+proximity_all_plot <- base_plot +   
+  # Add the university locations for four year instutions
+  geom_sf(
+    data = df, 
+    aes(geometry = university_geometry, fill = distance_km),
+    alpha = 0.75, shape = 21
+  ) +
+  # Facet wrap by institution type
+  facet_wrap(~ inst_type, ncol = 2) +
+  # Set the fill color
+  viridis::scale_fill_viridis(option = "H") +
+  # Setting the parameters for the plot legend
+  guides(
+    fill = guide_colorbar(
+      title = "Distance (Km) to Nearest Costco",
+      nbin = 1000,
+      barheight = 2,
+      barwidth = 30
+    )) +
+  # Place the legend at the bottom of the plot
+  theme(
+    legend.position = "bottom",
+    plot.title = element_text(vjust = 2)
+  ) +
+  # Add plot labels
+  labs(title = "Spatial Proximity to Costco Locations Among All Degree-Granting Colleges and Universities in the Continental U.S. by Institution Type")
 
+# Save the generated plot object as a .jpeg file
+ggsave(
+  filename = "Costco_Proximity_by_Inst_All.jpeg",
+  plot = proximity_all_plot,
+  path = "figs/",
+  device = "jpeg",
+  width = 25,
+  height = 8,
+  units = "in",
+  dpi = "retina",
+  limitsize = F
+)
 
 
 
