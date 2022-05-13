@@ -178,4 +178,41 @@ ggsave(
 )
 
 
+# Throw in a Histogram for Good Measure
+hist_all_dists <- ggplot(data = df) +
+  # Facet by highest degree offered
+  facet_wrap(~ degree_high, scales = "free") +
+  # Add a Histogram geom
+  geom_histogram(
+    aes(x = distance_km, fill = degree_high), 
+    bins = 50, color = "black"
+    ) + 
+  # Set the fill colors
+  viridis::scale_fill_viridis(option = "H", discrete = TRUE) + 
+  # Add labels to the plot
+  labs(
+    x = "Distance (Km) to Nearest Costco",
+    y = "",
+    title = "Distribution of Spatial Proximity to Costco Locations Among All Degree-Granting Colleges and Universities in the Continental U.S.",
+    fill = "Highest Degree Offered"
+  ) +
+  # Apply theme settings
+  plot_theme(
+    title_size = 30,
+    xaxis_size = 18,
+    strip_size = 18,
+    plot.margin = margin(3, 2, 5, 0.2, "mm")
+  )
 
+# Save the generated plot object as a .jpeg file
+ggsave(
+  filename = "Histogram_Costco_Proximity_All.jpeg",
+  plot = hist_all_dists,
+  path = "figs/",
+  device = "jpeg",
+  width = 25,
+  height = 8,
+  units = "in",
+  dpi = "retina",
+  limitsize = F
+)
